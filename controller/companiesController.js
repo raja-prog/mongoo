@@ -1,9 +1,12 @@
 
+// const { updateFun } = require('../models/companies')
+const Jobs=require('../models/companies')
 
-const path =require('path')
-const Companies=require('../models/companies')
+const mongodb= require('mongodb')
+const ObjectId= mongodb.ObjectId
+
 // const Ucompanies= require('../models/updatedcompanies')
- const jsonData =require('../views/companies.json')
+
 
 exports.getAboutus = (req,res)=>{
     console.log(req.body)
@@ -14,95 +17,101 @@ exports.getAboutus = (req,res)=>{
 }
 
 exports.getcompanies =(req,res)=>{
-    console.log(req.body)
-    console.log('companies controller')
-    res.sendFile(path.join(__dirname,'../','views','companies.json'))
-    // res.redirect('/')
+    Jobs.find().then(companies=>{
+        res.send(companies)
+    })
+    .catch(err=>{
+        console.log(err)
+    })
 }
 
 exports.getnewcompanies=(req,res)=>{
     console.log(req.body.id)
-    const compa=new Companies(req.body.id,req.body.name)
-    compa.save()
-    // jsonData.companies.push({id: req.body.id , name: req.body.name})
-    res.send("New company Created")
-    // res.sendFile(path.join(__dirname,'../','views','companies.json'))
-    console.log(jsonData,'haaai')
+    id=req.body.id
+    nam=req.body.name,
+    url=req.body.url,
+    location=req.body.location,
+    description=req.body.description,
+    _v=req.body._v
+const company = new Jobs({id:id,name:nam,url:url,location:location,description:description,_v:_v})
+company.save()
+.then(result=>{
+        console.log(result)
+        res.send('successfully added')
+
+    })
+    .catch(err=>{
+        console.log(err,'oooooooooooi')
+        res.send('user is already exist')
+    })
+    
 }
 
 exports.updatecompanies=(req,res)=>{
     // const compa= Companies.fetchAll()
     const update=req.params.id
-    var flag=false
-
-    jsonData.companies.map(company=>{
-        
-        if(company.id===update){
-            // console.log('flag',company.id)
-            return flag=true
-        }
-        
+    id=req.body.id
+    nam=req.body.name,
+    url=req.body.url,                                            //update
+    location=req.body.location,
+    description=req.body.description,
+    _v=req.body._v
+    Jobs.findById(update).then(company=>{
+        company.id=id,
+        company.name=nam,
+        company.url=url,
+        company.location=location,
+        company.description=description,
+        company._v=_v
+        company.save()
+    }).then(result=>{
+        console.log(result)
+        res.send('successfully updated')
 
     })
+    .catch(err=>{
+        console.log(err,'oooooooooooi')
+        res.send('wrong information')
+    })
 
+
+    // const companies= new Companies(id,nam,url,location,description,_v,new ObjectId(update))
+    // companies.save()
+    // .then(result=>{
+    //         console.log(result,'updated successs')
+    //         res.send('successfully updated')
+    //     }).catch(err=>{
+    //         console.log(err)
+    //         res.send("wrong Information, Try again")
+    //     })
+
+
+
+
+     }
+
+
+     exports.deletecompanies=(req,res)=>{
+   
+    const update=req.params.id                              
+     
     
-    // console.log(req.body)
-    if(flag){
-        const compa=new Companies(update,req.body.name)
-    compa.Edit()
-    console.log(update,req.body.name,'check')
-    // const ucomp=new Ucompanies(update)
-    // ucomp.save()
-    console.log(req.body.name)
-    res.send({
-        "success":"true",
-        "msg":"Company Updated Successfully"
-})}
-    else{
-
+    Jobs.findByIdAndRemove(update).then(result=>{
+        
+        res.send({
+            "success":"true",
+            "msg":"Company Deleted Successfully"
+    })
+        
+    })
+    .catch(err=>{
+        console.log(err,'heyyyy')
         res.send({
             "success":"false",
             "msg":"Check your Id"
     })
-
-    }
-
-}
-exports.deletecompanies=(req,res)=>{
-    // const compa= Companies.fetchAll()
-    const delet=req.params.id
-    var flag=false
-
-    jsonData.companies.map(company=>{
-        
-        if(company.id===delet){
-            // console.log('flag',company.id)
-            return flag=true
-        }
-        
-
     })
 
     
-    // console.log(req.body)
-    if(flag){
-        const compa=new Companies(delet)
-    compa.Delete()
-    console.log(delet,'check')
-    // const ucomp=new Ucompanies(update)
-    // ucomp.save()
-    console.log(req.body.name)
-    res.send({
-        "success":"true",
-        "msg":"Company Deleted Successfully"
-})}
-    else{
-
-        res.send({
-            "success":"false",
-            "msg":"File doesn't exist "
-    })
-
-    }
 
 }

@@ -2,6 +2,11 @@ const path = require('path')
 var express = require('express');
 var app = express();
 const bodyParser = require('body-parser')
+const mongoose = require('mongoose')
+const mongoConnect=require('./util/MDdb').mongoConnect
+
+const sequelize= require('./util/database')
+
 app.use(bodyParser.urlencoded({extended: true }))
 const aboutusRoute = require('./routes/aboutus')
 const homeRoute=require('./routes/home')
@@ -23,14 +28,26 @@ app.use(aboutusRoute)
 app.use((req,res,)=>{
     res.status(404).sendFile(path.join(__dirname,'views','404.html'))
 })
-// app.get('/',(req,res,next)=>{
-//     console.log('first midleware')
-//     res.send('<h1>Vanakamda maapla</h1>')
+
+sequelize.sync().then(result=>{
+    console.log('synced')
+})
+.catch(err=>{
+    console.log(err)
+})
+
+// mongoConnect(()=>{
+    
+//     app.listen(3000)
 // })
 
-// const server = http.createServer(app)
-app.listen(3000)
-// , function () {
-//   console.log('Example app listening on port 3000!');
-// });
-// server.listen(3000)
+mongoose.connect(
+    'mongodb+srv://raja:999aaaAAA@cluster0.3xcub.mongodb.net/Nodejs?retryWrites=true&w=majority'
+    ).then(result=>{
+        app.listen(3000)
+        console.log('successs')
+        
+    }).catch(err=>{
+        console.log(err)
+       
+    })
