@@ -6,7 +6,7 @@ const aboutusController = require('../controller/companiesController')
 
 const router = express.Router();
 
-// router.get('/about-us', aboutusController.getAboutus)
+router.get('/about-us', aboutusController.getAboutus)
 
 router.get('/get-companies', aboutusController.getcompanies)
 
@@ -15,6 +15,8 @@ router.post('/add-company', aboutusController.getnewcompanies)
 router.put('/update-company/:id', aboutusController.updatecompanies)
 
 router.delete('/remove-company/:id', aboutusController.deletecompanies)
+
+// route.get('/sign-up')
 
 router.post('/add-user', UserController.adduser)
 

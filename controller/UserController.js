@@ -2,12 +2,18 @@ const Users=require('../models/users')
 
 
 exports.getUsers =(req,res)=>{
-    Users.findAll().then(users=>{
+    Users.find.then(users=>{
         res.send(users)
     })
     .catch(err=>{
         console.log(err)
     })
+    //  Jobs.find().then(companies=>{
+    //     res.send(companies)
+    // })
+    // .catch(err=>{
+    //     console.log(err)
+    // })
 }
 
 
@@ -15,17 +21,32 @@ exports.getUsers =(req,res)=>{
 exports.adduser=(req,res)=>{
     console.log(req.body,'user')
     
+
+//     console.log(req.body.id)
+     id=req.body.id
+//     nam=req.body.name,
+//     url=req.body.url,
+//     location=req.body.location,
+//     description=req.body.description,
+//     _v=req.body._v
+// const emp = new User({id:id,name:nam,url:url,location:location,description:description,_v:_v})
+// emp.save()
+
+    
     firstName=req.body.firstName,
     lastName=req.body.lastName,
     email=req.body.email,
     phone=Number(req.body.phone)
 
-    Users.create({
+     const emp= new Users({
+         id:id,
         firstName:firstName,
         lastName:lastName,
         email:email,
         phone:phone
-    }).then(result=>{
+    })
+    emp.save()
+    .then(result=>{
         console.log(result)
         res.send('successfully added')
     })
@@ -37,6 +58,25 @@ exports.adduser=(req,res)=>{
 
 exports.updateUsers=(req,res)=>{
     // const compa= Companies.fetchAll()
+
+    // const update=req.params.id
+    // id=req.body.id
+    // nam=req.body.name,
+    // url=req.body.url,                                            //update
+    // location=req.body.location,
+    // description=req.body.description,
+    // _v=req.body._v
+    // Jobs.findById(update).then(company=>{
+    //     company.id=id,
+    //     company.name=nam,
+    //     company.url=url,
+    //     company.location=location,
+    //     company.description=description,
+    //     company._v=_v
+    //     company.save()
+
+
+
     const update=Number(req.params.id)
     firstName=req.body.firstName,
     lastName=req.body.lastName,
@@ -45,7 +85,7 @@ exports.updateUsers=(req,res)=>{
 
 
     console.log(req.body.name,'update')
-    Users.findByPk(update).then(result=>{
+    Users.findById(update).then(result=>{
         
         result.firstName=firstName,
         result.lastName=lastName,
@@ -73,11 +113,13 @@ exports.updateUsers=(req,res)=>{
 exports.removeusers=(req,res)=>{
    
     const update=Number(req.params.id)
+
+    // Jobs.findByIdAndRemove(update).then(result=>{
     
     // console.log(req.body.name,'update')
-    Users.findByPk(update).then(result=>{
+    Users.findByIdAndRemove(update).then(result=>{
         
-        result.destroy()
+        
     
         res.send('Users Successfully deleted')
         

@@ -1,0 +1,82 @@
+<%- include('./includes/head.ejs') %>
+    <link rel="stylesheet" href="/css/forms.css" type="text/css" >
+    <link rel="stylesheet" href="/css//auth.css" type="text/css">
+    <style>
+        
+    </style>
+</head>
+
+<body>
+    <% if(isAuthenticated) { %>
+        <h1>About-us</h1>
+        <% } %>
+
+
+    <main>
+   
+        <form class="login-form" action="/sign-up" method="POST" >
+            <div class="form-control">
+                <label for="fname">First Name</label>
+                <input 
+                  
+                    type="textarea" 
+                    name="fname" 
+                    id="fname" 
+                    
+                    />
+            </div>
+        
+            <div class="form-control">
+                <label for="lname">Last Name</label>
+                <input 
+                  
+                    type="textarea" 
+                    name="lname" 
+                    id="lname" 
+                   
+                    />
+            </div>
+                <div class="form-control">
+                <label for="email">E-Mail</label>
+                <input 
+                  
+                    type="email" 
+                    name="email" 
+                    id="email" 
+                   
+                    />
+            </div>
+            <div class="form-control">
+                <label for="password">Password</label>
+                <input 
+               
+                    type="password" 
+                    name="password" 
+                    id="password" 
+                />
+            </div>
+            <div class="form-control">
+                <label for="confirmPassword">Confirm Password</label>
+                <input 
+                   
+                    type="password" 
+                    name="confirmPassword" 
+                    id="confirmPassword" 
+                   
+            </div>
+            <input type="hidden" name="_csrf">
+            <!-- <br/> -->
+            <div class="form-control">
+                <label for="phone">phone</label>
+                <input 
+                  
+                    type="textarea" 
+                    name="phone" 
+                    id="phone" 
+                   
+                    />
+            </div>
+            <button class="btn" type="submit">Signup</button>
+        </form>
+    </main>
+<%- include('./includes/end.ejs') %>

@@ -5,7 +5,7 @@ let _db;
 const mongoConnect=(callback)=>{
     MongoClient.connect(
     'mongodb+srv://raja:999aaaAAA@cluster0.3xcub.mongodb.net/Nodejs?retryWrites=true&w=majority',{
-        
+        useNewUrlParser: true,
         useUnifiedTopology: true
       }
    
@@ -16,7 +16,7 @@ const mongoConnect=(callback)=>{
             callback()
         }
     ).catch(err=>{
-        console.log(err)
+        console.log(err, 'eeerrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr')
         throw err
     })
 }

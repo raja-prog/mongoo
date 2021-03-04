@@ -2,8 +2,8 @@
 // const { updateFun } = require('../models/companies')
 const Jobs=require('../models/companies')
 
-const mongodb= require('mongodb')
-const ObjectId= mongodb.ObjectId
+// const mongodb= require('mongodb')
+
 
 // const Ucompanies= require('../models/updatedcompanies')
 
@@ -12,7 +12,9 @@ exports.getAboutus = (req,res)=>{
     console.log(req.body)
     console.log('second midleware')
 
-    res.render('aboutus')
+    res.render('aboutus',{
+        isAuthenticated: req.session.isSignup
+    })
     // res.sendFile(path.join(__dirname,'../','views','aboutus.pug'))
 }
 
